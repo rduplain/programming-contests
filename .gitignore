@@ -1,0 +1,14 @@
+.#*
+*~
+\#*
+.cache/
+*.codekit
+.coverage
+.DS_Store
+/.emacs*
+.ipynb_checkpoints
+*.log
+__MACOSX
+*.pyc
+*.sw*
+Untitled*.ipynb
