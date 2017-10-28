@@ -11,7 +11,7 @@ def rope(fd):
     xs = fd.readline().strip().split(' ')
     r = reverse_sorted(int(x.rstrip('R')) for x in xs if x.endswith('R'))
     b = reverse_sorted(int(x.rstrip('B')) for x in xs if x.endswith('B'))
-    # Subtract 1cm for each segment.
+    # Subtract 1cm for each segment, to account for knots.
     return sum(ri + bi - 2 for ri, bi in zip(r, b))
 
 
