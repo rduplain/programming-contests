@@ -1,6 +1,10 @@
 ## Solutions to practice programming contest problems.
 
-A discussion at this year's beCamp led to a small informal group interested in
-practicing competitive programming.
+A discussion at [beCamp](http://becamp.org) 2017 in Charlottesville, VA, USA,
+led to a small informal group interested in practicing competitive programming.
 
-Only use local man pages. Do not search on the web.
+Use local man pages only. Do not search the web.
+
+Problems:
+
+* [Kattis Problem Archive](https://open.kattis.com/)
