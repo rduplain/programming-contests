@@ -20,4 +20,5 @@ def main(fd):
         print(advertise(fd, i))
 
 
-main(sys.stdin)
+if __name__ == '__main__':
+    main(sys.stdin)

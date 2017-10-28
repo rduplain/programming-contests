@@ -21,4 +21,5 @@ def main(fd):
         print('Case #{}: {}'.format(i, rope(fd)))
 
 
-main(sys.stdin)
+if __name__ == '__main__':
+    main(sys.stdin)
