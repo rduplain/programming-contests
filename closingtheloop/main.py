@@ -12,9 +12,8 @@ def rope(fd):
     b = reverse_sorted(int(x.rstrip('B')) for x in xs if x.endswith('B'))
     if not r or not b:
         return 0
-    length = sum(ri + bi for ri, bi in zip(r, b))
-    knots = min(len(r), len(b)) * 2
-    return length - knots
+    # Subtract 1cm for each segment.
+    return sum(ri + bi - 2 for ri, bi in zip(r, b))
 
 
 def main(fd):
