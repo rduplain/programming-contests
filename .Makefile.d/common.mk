@@ -5,6 +5,9 @@ test-%:
 	@echo "---"
 	@diff sample/$*.ans $*.out
 
+clean:
+	rm -f *.out
+
 version:
 	@python --version
 	@echo "---"
