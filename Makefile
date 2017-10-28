@@ -1,4 +1,4 @@
-PROJECTS := $(shell find * -maxdepth 0 -type d)
+PROJECTS := $(shell find . -mindepth 2 -name Makefile | xargs dirname)
 TARGET = all
 
 all: $(PROJECTS)
