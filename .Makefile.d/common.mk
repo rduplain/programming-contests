@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 test-%:
 	@time python main.py < sample/$*.in | tee $*.out
 	@echo "---"
