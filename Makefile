@@ -6,6 +6,9 @@ all: $(PROJECTS)
 clean: TARGET = clean
 clean: $(PROJECTS)
 
+new:
+	@./bin/create-project
+
 $(PROJECTS):
 	@$(MAKE) -C $@ $(TARGET)
 

@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# Create a new project using conventions, prompting for all input.
+#
+# Prompt for input instead of using command-line arguments, as to allow for a
+# `make` target which has no arguments.
+#
+# Assume problems are from open.kattis.com and solutions use Python.
+
+# Exit immediately if a command error or non-zero return occurs.
+set -e
+
+declare PROBLEM_URL # URL to problem on open.kattis.com.
+
+declare PROJECT     # project name, and destination directory by convention
+declare DESCRIPTION # description of project, just link to the problem URL
+declare SAMPLES_ZIP # URL for samples.zip provided with problem
+declare SAMPLES     # whitespace-delimited list of basenames of sample files
+
+# Define tasks which use declared variables.
+
+create_project_from_problem_url() {
+    # Create project from PROBLEM_URL.
+
+    parse_problem_url
+    echo "Creating $PROJECT project ..."
+    verify_not_exists $PROJECT
+    mkdir -p $PROJECT
+    prepare_samples
+    generate_readme   > $PROJECT/README.md
+    generate_makefile > $PROJECT/Makefile
+    generate_main     > $PROJECT/main.py
+    find $PROJECT # provide summary output
+}
+
+prompt_for_problem_url() {
+    # Prompt for PROBLEM_URL.
+
+    read -p 'URL to problem on open.kattis.com: ' PROBLEM_URL
+}
+
+strip_contest_from_problem_url() {
+    # Strip /contest/ID from PROBLEM_URL.
+    #
+    # Example:
+    #
+    #    https://open.kattis.com/contests/japipd/problems/mario
+    # => https://open.kattis.com/problems/mario
+
+    export PROBLEM_URL="${PROBLEM_URL/\/contests\/*\/problems/\/problems}"
+}
+
+locate_samples_zip() {
+    # Set SAMPLES_ZIP to conventional URL based on PROBLEM_URL.
+
+    export SAMPLES_ZIP="${PROBLEM_URL}/file/statement/samples.zip"
+}
+
+parse_problem_url() {
+    # Parse PROBLEM_URL into PROJECT, DESCRIPTION, and SAMPLES_ZIP.
+
+    # Verify that the PROBLEM_URL starts with https.
+    if [ "$PROBLEM_URL" = "${PROBLEM_URL##https}" ]; then
+        exec >&2 # Redirect all further stdout to stderr.
+        echo "URL: $PROBLEM_URL"
+        echo "Provide a URL with https."
+        echo
+        echo "This program downloads samples.zip."
+        echo 'Using https helps to mitigate a "man in the middle" attack.'
+        echo
+        return 1
+    fi
+
+    strip_contest_from_problem_url
+    export PROJECT=$(echo "${PROBLEM_URL##*/}" | tr '[:upper:]' '[:lower:]')
+    export DESCRIPTION="$PROBLEM_URL"
+    locate_samples_zip
+}
+
+generate_readme() {
+    # Generate README for the new PROJECT.
+
+    echo $DESCRIPTION
+}
+
+generate_makefile() {
+    # Generate Makefile for the new PROJECT.
+
+    local targets="version"
+
+    verify_have samples "$SAMPLES"
+
+    for sample in $SAMPLES; do
+        targets="$targets test-$sample"
+    done
+
+    cat - <<EOF
+all: $targets
+
+include ../.Makefile.d/python.mk
+EOF
+}
+
+generate_main() {
+    # Generate a stub for the main program for the new PROJECT.
+
+    # Strip numbers from PROJECT, to ensure a valid symbol.
+    local name=$(echo "$PROJECT" | tr -d '[:digit:]')
+
+    cat - <<EOF
+import sys
+
+
+def $name(fd):
+    raise NotImplementedError("$PROJECT is a stub.")
+
+
+def main(fd):
+    print($name(fd))
+
+
+if __name__ == '__main__':
+    main(sys.stdin)
+EOF
+}
+
+prepare_samples() {
+    # Unpack the sample file from SAMPLES_ZIP.
+
+    echo "Downloading $SAMPLES_ZIP ..."
+    mkdir -p $PROJECT/sample
+    pushd $PROJECT/sample > /dev/null
+
+    curl -L -o samples.zip $SAMPLES_ZIP # Use '-L' to follow redirects.
+    unzip samples.zip
+
+    # Get basename of each sample file.
+    local -a samples
+    for sample in *.in; do
+        samples+=(${sample%%.in})
+    done
+    export SAMPLES="${samples[@]}"
+
+    # Remove samples.zip, but only after verifying SAMPLES is set.
+    # Specifically, allow for manual inspection of the samples.zip.
+    verify_have samples "$SAMPLES"
+    rm -f samples.zip
+
+    popd > /dev/null
+}
+
+# Define utilities which accept arguments and do not use global variables.
+
+verify_have() {
+    local name="$1"
+    shift
+
+    if [ -z "$@" ]; then
+        echo "No $name found. Abort." >&2
+        return 1
+    fi
+
+}
+
+verify_not_exists() {
+    # Verify that the given files or directories do not exist.
+
+    for path in "$@"; do
+        if [ -e "$path" ]; then
+            echo "File(s) already exists: $path" >&2
+            return 4
+        fi
+    done
+}
+
+given() {
+    # Check that the given programs exist.
+
+    for program in "$@"; do
+        if ! which $program > /dev/null; then
+            echo "Looking for '$program' program, but cannot find it." >&2
+            return 3
+        fi
+    done
+}
+
+# Begin main script.
+
+main() {
+    given curl unzip
+
+    prompt_for_problem_url
+    create_project_from_problem_url
+}
+
+main "$@"
