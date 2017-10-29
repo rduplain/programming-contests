@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 run:
-	@time python main.py
+	@time python main.py | tee $@.out
 
 test-%:
 	@time python main.py < sample/$*.in | tee $*.out
