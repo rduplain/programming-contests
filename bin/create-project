@@ -122,7 +122,7 @@ def $name(fd):
 
 
 def main(fd):
-    print($name(fd))
+    $name(fd)
 
 
 if __name__ == '__main__':
