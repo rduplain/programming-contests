@@ -15,6 +15,7 @@ declare PROJECT     # project name, and destination directory by convention
 declare DESCRIPTION # description of project, just link to the problem URL
 declare SAMPLES_ZIP # URL for samples.zip provided with problem
 declare SAMPLES     # whitespace-delimited list of basenames of sample files
+declare NO_SAMPLES  # skip downloading samples when non-empty
 
 # Define tasks which use declared variables.
 
@@ -25,7 +26,9 @@ create_project_from_problem_url() {
     echo "Creating $PROJECT project ..."
     verify_not_exists $PROJECT
     mkdir -p $PROJECT
-    prepare_samples
+    if [ -z "$NO_SAMPLES" ]; then
+        prepare_samples
+    fi
     generate_readme   > $PROJECT/README.md
     generate_makefile > $PROJECT/Makefile
     generate_main     > $PROJECT/main.py
@@ -87,11 +90,15 @@ generate_makefile() {
 
     local targets="version"
 
-    verify_have samples "$SAMPLES"
+    if [ -n "$NO_SAMPLES" ]; then
+        targets="$targets run"
+    else
+        verify_have samples "$SAMPLES"
 
-    for sample in $SAMPLES; do
-        targets="$targets test-$sample"
-    done
+        for sample in $SAMPLES; do
+            targets="$targets test-$sample"
+        done
+    fi
 
     cat - <<EOF
 all: $targets
@@ -187,6 +194,15 @@ given() {
 
 main() {
     given curl unzip
+
+    if [ $# -gt 0 ]; then
+        arg=$1
+        shift
+
+        if [ "$arg" = "--no-samples" ]; then
+            export NO_SAMPLES=true
+        fi
+    fi
 
     prompt_for_problem_url
     create_project_from_problem_url

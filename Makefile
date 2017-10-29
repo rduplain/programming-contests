@@ -9,6 +9,9 @@ clean: $(PROJECTS)
 new:
 	@./bin/create-project
 
+new-without-samples:
+	@./bin/create-project --no-samples
+
 $(PROJECTS):
 	@$(MAKE) -C $@ $(TARGET)
 
