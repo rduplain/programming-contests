@@ -6,7 +6,7 @@ def reverse_sorted(*a):
     return sorted(*a, reverse=True)
 
 
-def rope(fd):
+def closingtheloop(fd):
     s = int(fd.readline().strip())
     xs = fd.readline().strip().split(' ')
     r = reverse_sorted(int(x.rstrip('R')) for x in xs if x.endswith('R'))
@@ -18,7 +18,7 @@ def rope(fd):
 def main(fd):
     count = int(fd.readline())
     for i in range(1, count+1):
-        print('Case #{}: {}'.format(i, rope(fd)))
+        print('Case #{}: {}'.format(i, closingtheloop(fd)))
 
 
 if __name__ == '__main__':

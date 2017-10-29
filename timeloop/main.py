@@ -1,14 +1,14 @@
 import sys
 
 
-def do(x):
+def timeloop(x):
     for i in range(1, int(x)+1):
         yield '{} Abracadabra'.format(i)
 
 
 def main(fd):
     for line in fd:
-        for result in do(line.strip()):
+        for result in timeloop(line.strip()):
             print(result)
 
 

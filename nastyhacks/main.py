@@ -1,7 +1,7 @@
 import sys
 
 
-def advertise(fd, i):
+def nastyhacks(fd, i):
     r, e, c = fd.readline().strip().split(' ')
     r, e, c = int(r), int(e), int(c)
 
@@ -17,7 +17,7 @@ def advertise(fd, i):
 def main(fd):
     count = int(fd.readline())
     for i in range(1, count+1):
-        print(advertise(fd, i))
+        print(nastyhacks(fd, i))
 
 
 if __name__ == '__main__':
