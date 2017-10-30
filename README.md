@@ -45,17 +45,18 @@ of competitive programming.
 * **Lookups are often not an option.** Problems in the "real world" can include
   a pre-computed index which allow for quick search or lookup. Contest problems
   often specify input sizes which make it impractical to start the program by
-  first computing an index.
+  first computing an index, given that the program must complete within a
+  certain time, often O(1) seconds.
 * **Teams matter.** ... because the hard problems will take more time to
   complete than is scheduled for a contest.
 * **Languages are limited.** A Lisp is probably not an option, unless supported
-  by the platform accepting submissions, which is unlikely because the platform
-  needs to compile and run the program submission in a prebuilt sandbox.
-  Further, without internet access, programs will not be able to load libraries
-  or embedded interpreters unless the team types these out, which is only a
-  valid option for small libraries. Even then, solutions are independent so
-  there's no harm in copy/paste, which is something to avoid in professional
-  programming.
+  by [the platform accepting submissions](https://open.kattis.com/help), which
+  is unlikely because the platform needs to compile and run the program
+  submission in a prebuilt sandbox.  Further, without internet access, programs
+  will not be able to load libraries or embedded interpreters unless the team
+  types these out, which is only a valid option for small libraries. Even then,
+  solutions are independent so there's no harm in copy/paste, which is
+  something to avoid in professional programming.
 * **Python 3 does not have a maximum integer size.** [There is no limit to the
   value of integers in Python 3][Python 3 Integers], which makes it productive
   for problems where the primary challenge is handling very large values.
