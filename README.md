@@ -20,7 +20,8 @@ of competitive programming.
 
 * **Test using file I/O exclusively.** Automated systems accept program
   submissions and run them against secret test cases, first compiling the
-  program as needed.
+  program as needed. Naturally, these systems use stdio so that the submitted
+  program is a black box.
 * **Test locally using the provided samples.** A problem typically includes
   sample input and output. Test using these.
 * **Pass around a file descriptor.** Unless there's a reason to read the entire
