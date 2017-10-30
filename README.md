@@ -5,6 +5,7 @@ led to a small informal group interested in practicing competitive programming.
 
 Use local man pages only. Do not search the web.
 
-Problems:
+
+### Problems
 
 * [Kattis Problem Archive](https://open.kattis.com/)
