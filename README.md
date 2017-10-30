@@ -24,8 +24,8 @@ of competitive programming.
   program is a black box.
 * **Test locally using the provided samples.** A problem typically includes
   sample input and output. Test using these.
-* **Pass around a file descriptor.** Unless there's a reason to read the entire
-  file into memory, typically problems are laid out line by line, and the
+* **Pass around a file descriptor.** Problems are typically laid out line by
+  line, and unless there's a reason to read the entire file into memory, the
   program should read line by line accordingly. Specifically, professional
   programmers often push I/O and other integration details to the edges of the
   program.
