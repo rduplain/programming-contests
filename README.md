@@ -15,7 +15,8 @@ Use local man pages only. Do not search the web.
 
 Guidance on how to get started or advance in competitive programming are widely
 discussed. Guidance here is on how competitive programming differs from
-professional programming (or software as craft).
+professional programming (or software as craft) and other topics on the mindset
+of competitive programming.
 
 * **Test using file I/O exclusively.** Automated systems accept program
   submissions and run them against secret test cases, first compiling the
