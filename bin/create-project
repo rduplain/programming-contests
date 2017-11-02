@@ -19,6 +19,12 @@ declare NO_SAMPLES  # skip downloading samples when non-empty
 
 # Define tasks which use declared variables.
 
+prompt_for_problem_url() {
+    # Prompt for PROBLEM_URL.
+
+    read -p 'URL to problem on open.kattis.com: ' PROBLEM_URL
+}
+
 create_project_from_problem_url() {
     # Create project from PROBLEM_URL.
 
@@ -33,12 +39,6 @@ create_project_from_problem_url() {
     generate_makefile > $PROJECT/Makefile
     generate_main     > $PROJECT/main.py
     find $PROJECT # provide summary output
-}
-
-prompt_for_problem_url() {
-    # Prompt for PROBLEM_URL.
-
-    read -p 'URL to problem on open.kattis.com: ' PROBLEM_URL
 }
 
 strip_contest_from_problem_url() {
