@@ -1,9 +1,8 @@
-import collections
 import sys
 
 
 def edit(line):
-    acc = collections.deque()
+    acc = []
     for c in line:
         if c != '<':
             acc.append(c)
