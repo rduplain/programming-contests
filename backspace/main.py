@@ -1,16 +1,25 @@
-import re
+import collections
 import sys
 
 
+def edit(line):
+    acc = collections.deque()
+    for c in line:
+        if c != '<':
+            acc.append(c)
+        else:
+            acc.pop()
+    return acc
+
+
 def backspace(fd):
-    line = fd.read().strip()
-    while '<' in line:
-        line = re.sub('\w<', '', line)
-    return line
+    for c in edit(fd.read().strip()):
+        sys.stdout.write(c)
+    print('')
 
 
 def main(fd):
-    print(backspace(fd))
+    backspace(fd)
 
 
 if __name__ == '__main__':
