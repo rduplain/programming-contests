@@ -2,13 +2,12 @@ import sys
 
 
 def rank(x0, x1):
-    if (x0 == 1 and x1 == 2) or (x0 == 2 and x1 == 1):
-        return 1000
+    x0, x1 = sorted((x0, x1))
+    if (x0, x1) == (1, 2):
+        return 200
     if x0 == x1:
         return 100 + x0*10 + x1
-    if x1 > x0:
-        return x1*10 + x0
-    return x0*10 + x1
+    return x1*10 + x0
 
 
 def mia(line):
