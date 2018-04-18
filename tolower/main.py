@@ -16,8 +16,7 @@ def main(fd):
     p, t = fd.readline().strip().split(' ')
     p, t = int(p), int(t)
 
-    bernoulli = map(int, [tolower(fd, p, t) for x in range(p)])
-    print(sum(bernoulli))
+    print(sum(tolower(fd, p, t) for x in range(p)))
 
 
 if __name__ == '__main__':
