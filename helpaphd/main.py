@@ -2,12 +2,11 @@ import sys
 
 
 def helpaphd(line):
-    parts = line.split('+')
-    if len(parts) < 2:
+    try:
+        x, y = line.split('+')
+    except ValueError:
         return 'skipped'
-    x, y = parts
-    x, y = int(x), int(y)
-    return x + y
+    return int(x) + int(y)
 
 
 def main(fd):
